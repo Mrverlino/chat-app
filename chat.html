@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat</title>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="AjaxPush.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<p>Vous pouvez partager vos histoires ici gratuitement en anonyme</p>
+
+<header>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+           
+		<div class="container">
+			
+			<div class="navbar-brand " >
+				<img src="xlogo.jpg" alt="logo" width="10%" height="10%">
+
+				<button  type="button" style="margin-left: 80%;" data-bs-toggle="collapse" data-bs-target="#NavbarNav" class="navbar-toggler">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+			
+			
+		   
+			<div class="collapse navbar-collapse" id="NavbarNav">
+				
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a href="index.html" class="nav-link ">Acceuil</a>
+					</li>
+					<li class="nav-item">
+						<a href="chat.html" class="nav-link active">Chat</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://www.facebook.com/profile.php?id=61561363823217" class="nav-link ">Facebook</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://t.me/xfriendscmr" class="nav-link ">Télégrame</a>
+					</li>
+					<li class="nav-item">
+						<a href="https://xfriends.netlify.app/" class="nav-link ">Profil</a>
+					</li>
+				   
+				   
+				</ul>
+			</div>
+		</div>
+	   
+		</nav>
+</header>
+		
+	
+	<script type="text/javascript">
+		var comet = new AjaxPush('listener.php', 'sender.php');
+		var n = new Function("return (Math.random()*190).toFixed(0)");
+
+		// create anonymous users
+		var c = "rgb(" + n() + ", " + n() + "," + n() + ")";
+		var template = "<strong style='color: " + c + "'>" + 'user_' + n() + "</strong>: ";
+
+		// listener
+		comet.connect(function(data) { $("#history").append(data.message) + "<br>"; });
+
+		// sender
+		var send = function() {
+			comet.doRequest({ message: template + $("#message").val() + "<br>" }, function(){
+				$("#message").val('').focus();
+			})
+		}
+	</script>
+
+	
+
+	<input type="text" autofocus id="message"  placeholder="your message!">
+	
+	<button onclick="send()" class="btn btn-success">Send</button><br><br>
+
+	<div id="history"></div>
+	
+</div>
+</body>
+</html>
